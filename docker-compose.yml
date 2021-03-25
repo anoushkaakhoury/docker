@@ -1,0 +1,49 @@
+version: '3.1'
+
+services:
+  client:
+    build:
+      context: /home/ubuntu/mern-example/
+      dockerfile: dockerfile
+    volumes:
+      - "/home/ubuntu/mern-example:/app"
+    ports:
+      - "4100:4100"
+    depends_on:
+      - api
+    networks:
+      - app-network
+
+
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - data-volume:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  api:
+    build:
+      context: /home/ubuntu/node-express-realworld-example-app/
+      dockerfile: dockerfile
+    volumes:
+      - "/home/ubuntu/node-express-realworld-example-app/:/app"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    data-volume:
+    node_modules:
+    web-root:
+      driver: local
