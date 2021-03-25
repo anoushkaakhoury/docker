@@ -1,0 +1,9 @@
+mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - "/var/lib/docker/volumes/ubuntu_data-volume/_data:/data/db"
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
